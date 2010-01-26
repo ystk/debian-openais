@@ -1,0 +1,17 @@
+#!/bin/sh
+# Assumes find and xargs honor -print0 and -0, like GNU versions do.
+
+fmt='%-12s %7.7s\n'
+echo "OpenAIS Project Lines of Code"
+printf "$fmt" subdir LoC
+echo "---------------------------"
+
+total=0
+for i in services lib include test; do
+  n=`find $i -name '*.[ch]' -print0 | xargs -0 cat | wc -l`
+  printf "$fmt" $i $n
+  total=`expr $total + $n`
+done
+
+echo "---------------------------"
+printf "$fmt" total $total
