@@ -6,6 +6,7 @@
 export OPENAIS_BUILD=$(if $(findstring debug,$(DEB_BUILD_OPTIONS)),DEBUG)
 
 configure-stamp:
+	dh_autoreconf
 	./configure --prefix=/usr \
 		    --sysconfdir=/etc \
                     --libexecdir=/usr/lib/ \
@@ -22,6 +23,7 @@ build-stamp: configure-stamp
 clean:
 	dh_testdir
 	[ ! -f Makefile ] || $(MAKE) distclean
+	dh_autoreconf_clean
 	dh_clean configure-stamp build-stamp
 
 install: build
